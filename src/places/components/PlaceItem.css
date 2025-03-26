@@ -1,0 +1,61 @@
+.place-item {
+  margin: 16px 0;
+}
+
+.place-item__content {
+  padding: 0;
+}
+
+.place-item__info {
+  padding: 16px;
+  text-align: center;
+}
+
+.place-item__image {
+  width: 100%;
+  height: 200px;
+  margin-right: 24px;
+}
+
+.place-item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-item__info h2,
+.place-item__info h3,
+.place-item__info p {
+  margin: 0 0 8px 0;
+}
+
+.place-item__actions {
+  padding: 16px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.place-item__modal-content {
+  padding: 0;
+}
+
+.place-item__modal-actions {
+  text-align: right;
+}
+
+.place-item__actions button,
+.place-item__actions a {
+  margin: 8px;
+}
+
+.map-container {
+  width: 100%;
+  height: 200px;
+  margin: 16px 0;
+}
+
+@media (min-width: 768px) {
+  .place-item__image {
+    height: 320px;
+  } 
+}
