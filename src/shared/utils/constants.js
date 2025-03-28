@@ -1,0 +1,10 @@
+export const VALIDATOR_TYPE_EMAIL = "EMAIL";
+export const VALIDATOR_TYPE_FILE = "FILE";
+export const VALIDATOR_TYPE_MAX = "MAX";
+export const VALIDATOR_TYPE_MAXLENGTH = "MAXLENGTH";
+export const VALIDATOR_TYPE_MIN = "MIN";
+export const VALIDATOR_TYPE_MINLENGTH = "MINLENGTH";
+export const VALIDATOR_TYPE_REQUIRE = "REQUIRE";
+
+export const FORM_INPUT_CHANGE = "INPUT_CHANGE";
+export const FORM_SET_DATA = "SET_DATA";

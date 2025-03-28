@@ -11,7 +11,9 @@ function PlaceList(props) {
       <div className="place-list center">
         <Card>
           <h2>No places found. Maybe create one?</h2>
-          <Button inverse>Share Place</Button>
+          <Button to="/places/new" inverse>
+            Share Place
+          </Button>
         </Card>
       </div>
     );
