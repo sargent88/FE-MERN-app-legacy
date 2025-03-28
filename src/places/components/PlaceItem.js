@@ -5,24 +5,54 @@ import { Button } from "../../shared/components/FormElements";
 import "./PlaceItem.css";
 
 function PlaceItem(props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openMapModal = () => setIsMapModalOpen(true);
+  const closeMapModal = () => setIsMapModalOpen(false);
+
+  const openDeleteModal = () => setIsDeleteModalOpen(true);
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+  const deletePlace = () => {
+    closeDeleteModal();
+    console.log("DELETING...");
+  };
 
   return (
     <React.Fragment>
       <Modal
-        show={isModalOpen}
-        onCancel={closeModal}
+        show={isMapModalOpen}
+        onCancel={closeMapModal}
         header={props.address}
         contentClass="place-item__modal-content"
         footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeModal}>CLOSE</Button>}
+        footer={<Button onClick={closeMapModal}>CLOSE</Button>}
       >
         <div className="map-container">
           <Map center={props.coordinates} zoom={16} />
         </div>
+      </Modal>
+      <Modal
+        show={isDeleteModalOpen}
+        onCancel={closeDeleteModal}
+        header="Are you sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={closeDeleteModal}>
+              CANCEL
+            </Button>
+            <Button danger onClick={deletePlace}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>
+          Are you sure you want to delete this place? This action cannot be
+          undone.
+        </p>
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
@@ -35,11 +65,13 @@ function PlaceItem(props) {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-            <Button inverse onClick={openModal}>
+            <Button inverse onClick={openMapModal}>
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button danger onClick={openDeleteModal}>
+              DELETE
+            </Button>
           </div>
         </Card>
       </li>
