@@ -9,7 +9,7 @@ const googleApiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const mapId = process.env.REACT_APP_MAP_ID;
 
 const script = document.createElement("script");
-script.src = `https://maps.googleapis.com/maps/api/js?key=${googleApiKey}&libraries=marker&map_ids=${mapId}@loading=async`;
+script.src = `https://maps.googleapis.com/maps/api/js?key=${googleApiKey}&libraries=marker&map_ids=${mapId}&loading=async`;
 script.async = true;
 document.body.appendChild(script);
 
