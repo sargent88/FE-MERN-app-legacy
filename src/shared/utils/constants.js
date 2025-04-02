@@ -1,3 +1,5 @@
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 export const VALIDATOR_TYPE_EMAIL = "EMAIL";
 export const VALIDATOR_TYPE_FILE = "FILE";
 export const VALIDATOR_TYPE_MAX = "MAX";
@@ -9,8 +11,8 @@ export const VALIDATOR_TYPE_REQUIRE = "REQUIRE";
 export const FORM_INPUT_CHANGE = "INPUT_CHANGE";
 export const FORM_SET_DATA = "SET_DATA";
 
-export const V1_USERS_ENDPOINT = "/api/v1/users";
-export const V1_PLACES_ENDPOINT = "/api/v1/places";
+export const V1_USERS_ENDPOINT = `${backendUrl}/api/v1/users`;
+export const V1_PLACES_ENDPOINT = `${backendUrl}/api/v1/places`;
 
 export const USERS = [
   {

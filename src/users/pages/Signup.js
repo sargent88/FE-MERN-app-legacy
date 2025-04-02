@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useForm } from "../../shared/hooks/formHook";
+import { useHttpClient } from "../../shared/hooks/httpHook";
 import { Button, Input } from "../../shared/components/FormElements";
 import {
   VALIDATOR_EMAIL,
@@ -16,12 +17,9 @@ import {
 import { V1_USERS_ENDPOINT } from "../../shared/utils/constants";
 import "./Authentication.css";
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
-
 function Signup() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
   const navigate = useNavigate();
+  const { isLoading, error, sendRequest, errorHandler } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       name: {
@@ -46,34 +44,25 @@ function Signup() {
 
   const signupSubmitHandler = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
+
     try {
-      const response = await fetch(`${backendUrl}${V1_USERS_ENDPOINT}/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await sendRequest(
+        `${V1_USERS_ENDPOINT}/signup`,
+        "POST",
+        JSON.stringify({
           name: formState.inputs.name.value,
           email: formState.inputs.email.value,
           password: formState.inputs.password.value,
         }),
-      });
+        {
+          "Content-Type": "application/json",
+        }
+      );
 
-      const responseData = await response.json();
-      if (!response.ok) {
-        throw new Error(responseData.error);
-      }
-      setIsLoading(false);
       navigateToLoginPage();
     } catch (err) {
-      setIsLoading(false);
-      setError(err.message);
+      console.error("SIGNUP ERROR", err);
     }
-  };
-
-  const errorHandler = () => {
-    setError(null);
   };
 
   return (
