@@ -12,6 +12,7 @@ import { AuthenticationContext } from "../../shared/context/authContext";
 import { useHttpClient } from "../../shared/hooks/httpHook";
 import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
 import "./PlaceItem.css";
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 function PlaceItem(props) {
   const { isLoading, error, sendRequest, errorHandler } = useHttpClient();
@@ -78,7 +79,7 @@ function PlaceItem(props) {
         <Card className="place-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
-            <img src={props.image} alt={props.title} />
+            <img src={`${backendUrl}/${props.image}`} alt={props.title} />
           </div>
           <div className="place-item__info">
             <h2>{props.title}</h2>

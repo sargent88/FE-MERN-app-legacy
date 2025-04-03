@@ -1,7 +1,11 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Input, Button } from "../../shared/components/FormElements";
+import {
+  ImageUpload,
+  Input,
+  Button,
+} from "../../shared/components/FormElements";
 import { ErrorModal, LoadingSpinner } from "../../shared/components/UIElements";
 import {
   VALIDATOR_MINLENGTH,
@@ -31,6 +35,10 @@ function NewPlace() {
         value: "",
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
     },
     false
   );
@@ -38,19 +46,16 @@ function NewPlace() {
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      await sendRequest(
-        `${V1_PLACES_ENDPOINT}`,
-        "POST",
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          address: formState.inputs.address.value,
-          creator: authenticationContext.userId,
-        }),
-        {
-          "Content-Type": "application/json",
-        }
-      );
+      const formData = new FormData();
+      formData.append("title", formState.inputs.title.value);
+      formData.append("description", formState.inputs.description.value);
+      formData.append("address", formState.inputs.address.value);
+      formData.append("image", formState.inputs.image.value);
+      formData.append("creator", authenticationContext.userId);
+
+      await sendRequest(`${V1_PLACES_ENDPOINT}`, "POST", formData, {
+        "Content-Type": "multipart/form-data",
+      });
 
       navigate("/");
     } catch (err) {
@@ -90,6 +95,12 @@ function NewPlace() {
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid address."
           onInput={inputHandler}
+        />
+        <ImageUpload
+          id="image"
+          center
+          onInput={inputHandler}
+          errorText="Please provide an image."
         />
         <Button type="submit" disabled={!formState.isValid}>
           ADD PLACE
