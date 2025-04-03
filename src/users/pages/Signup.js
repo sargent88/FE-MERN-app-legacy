@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { useForm } from "../../shared/hooks/formHook";
 import { useHttpClient } from "../../shared/hooks/httpHook";
-import { Button, Input } from "../../shared/components/FormElements";
+import {
+  Button,
+  ImageUpload,
+  Input,
+} from "../../shared/components/FormElements";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -24,6 +28,10 @@ function Signup() {
     {
       name: {
         value: "",
+        isValid: false,
+      },
+      image: {
+        value: null,
         isValid: false,
       },
       email: {
@@ -81,6 +89,12 @@ function Signup() {
             validators={[VALIDATOR_REQUIRE()]}
             errorText="Name is required."
             onInput={inputHandler}
+          />
+          <ImageUpload
+            id="image"
+            center
+            onInput={inputHandler}
+            errorText="Please provide an image."
           />
           <Input
             id="email"
