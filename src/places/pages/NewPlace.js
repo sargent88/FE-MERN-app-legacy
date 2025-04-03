@@ -51,6 +51,7 @@ function NewPlace() {
           "Content-Type": "application/json",
         }
       );
+
       navigate("/");
     } catch (err) {
       console.error("NEW PLACE ERROR: ", err);

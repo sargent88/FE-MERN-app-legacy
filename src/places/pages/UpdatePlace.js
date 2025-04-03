@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Input, Button } from "../../shared/components/FormElements";
 import {
@@ -14,9 +14,12 @@ import {
 import { useHttpClient } from "../../shared/hooks/httpHook";
 import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
 import { useForm } from "../../shared/hooks/formHook";
+import { AuthenticationContext } from "../../shared/context/authContext";
 import "./PlaceForm.css";
 
 function UpdatePlace() {
+  const navigate = useNavigate();
+  const authenticationContext = useContext(AuthenticationContext);
   const { isLoading, error, sendRequest, errorHandler } = useHttpClient();
   const [loadedPlace, setLoadedPlace] = useState();
   const placeId = useParams().pid;
@@ -78,6 +81,8 @@ function UpdatePlace() {
           "Content-Type": "application/json",
         }
       );
+
+      navigate(`/${authenticationContext.userId}/places`);
     } catch (err) {
       console.error("UPDATE PLACE ERROR: ", err);
     }

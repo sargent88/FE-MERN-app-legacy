@@ -8,7 +8,14 @@ export const useHttpClient = () => {
 
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
+      console.info("sendRequest function re-created");
       setIsLoading(true);
+
+      activeHttpRequests.current.forEach((abortController) =>
+        abortController.abort()
+      );
+      activeHttpRequests.current = [];
+
       const httpAbortController = new AbortController();
       activeHttpRequests.current.push(httpAbortController);
 
@@ -52,7 +59,7 @@ export const useHttpClient = () => {
 
   useEffect(() => {
     return () => {
-      console.log("Users component is unmounting. Aborting requests...");
+      console.info("Component is unmounting. Aborting requests...");
       activeHttpRequests.current.forEach((abortController) =>
         abortController.abort()
       );

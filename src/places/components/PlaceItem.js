@@ -1,11 +1,20 @@
 import React, { useContext, useState } from "react";
 
-import { Card, Map, Modal } from "../../shared/components/UIElements";
+import {
+  Card,
+  ErrorModal,
+  LoadingSpinner,
+  Map,
+  Modal,
+} from "../../shared/components/UIElements";
 import { Button } from "../../shared/components/FormElements";
-import "./PlaceItem.css";
 import { AuthenticationContext } from "../../shared/context/authContext";
+import { useHttpClient } from "../../shared/hooks/httpHook";
+import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
+import "./PlaceItem.css";
 
 function PlaceItem(props) {
+  const { isLoading, error, sendRequest, errorHandler } = useHttpClient();
   const authenticationContext = useContext(AuthenticationContext);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -18,11 +27,20 @@ function PlaceItem(props) {
 
   const deletePlace = () => {
     closeDeleteModal();
-    console.log("DELETING...");
+    try {
+      sendRequest(`${V1_PLACES_ENDPOINT}/${props.id}`, "DELETE", null, {
+        Authorization: "Bearer " + authenticationContext.token,
+      });
+
+      props.onDelete(props.id);
+    } catch (err) {
+      console.error("DELETE PLACE ERROR: ", err);
+    }
   };
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
       <Modal
         show={isMapModalOpen}
         onCancel={closeMapModal}
@@ -58,6 +76,7 @@ function PlaceItem(props) {
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
@@ -70,7 +89,7 @@ function PlaceItem(props) {
             <Button inverse onClick={openMapModal}>
               VIEW ON MAP
             </Button>
-            {authenticationContext.isLoggedIn && (
+            {authenticationContext.userId === props.creatorId && (
               <React.Fragment>
                 <Button to={`/places/${props.id}`}>EDIT</Button>
                 <Button danger onClick={openDeleteModal}>
