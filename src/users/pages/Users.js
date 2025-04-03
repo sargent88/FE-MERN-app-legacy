@@ -19,6 +19,7 @@ function Users() {
         console.error("GET USERS ERROR: ", err);
       }
     };
+
     getUsers();
   }, [sendRequest]);
 

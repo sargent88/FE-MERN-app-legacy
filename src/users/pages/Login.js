@@ -38,7 +38,7 @@ function Login() {
   const loginSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      await sendRequest(
+      const responseData = await sendRequest(
         `${V1_USERS_ENDPOINT}/login`,
         "POST",
         JSON.stringify({
@@ -50,7 +50,7 @@ function Login() {
         }
       );
 
-      authenticationContext.login();
+      authenticationContext.login(responseData.user.id);
     } catch (err) {
       console.error("LOGIN ERROR: ", err);
     }
