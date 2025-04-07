@@ -8,7 +8,6 @@ export const useHttpClient = () => {
 
   const sendRequest = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
-      console.info("sendRequest function re-created");
       setIsLoading(true);
 
       activeHttpRequests.current.forEach((abortController) =>
@@ -40,7 +39,7 @@ export const useHttpClient = () => {
         return responseData;
       } catch (err) {
         if (err.name === "AbortError") {
-          console.log("Request was aborted:", url);
+          console.info("Request was aborted:", url);
           return;
         } else {
           setError(err.message);

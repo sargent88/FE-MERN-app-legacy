@@ -13,7 +13,7 @@ import {
   ErrorModal,
   LoadingSpinner,
 } from "../../shared/components/UIElements";
-import { AuthenticationContext } from "../../shared/context/authContext";
+import { AuthenticationContext } from "../../shared/context/authenticationContext";
 import { V1_USERS_ENDPOINT } from "../../shared/utils/constants";
 import "./Authentication.css";
 
@@ -50,7 +50,7 @@ function Login() {
         }
       );
 
-      authenticationContext.login(responseData.user.id);
+      authenticationContext.login(responseData.userId, responseData.token);
     } catch (err) {
       console.error("LOGIN ERROR: ", err);
     }

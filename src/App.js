@@ -11,41 +11,41 @@ import { MainNavigation } from "./shared/components/Navigation";
 import { NewPlace, UpdatePlace, UserPlaces } from "./places/pages";
 import Login from "./users/pages/Login";
 import Signup from "./users/pages/Signup";
-import { AuthenticationContext } from "./shared/context/authContext";
+import { AuthenticationContext } from "./shared/context/authenticationContext";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(null);
 
-  const login = useCallback((userId) => {
-    setIsLoggedIn(true);
+  const login = useCallback((userId, token) => {
+    setToken(token);
     setUserId(userId);
   }, []);
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, []);
 
   return (
     <AuthenticationContext.Provider
-      value={{ isLoggedIn, userId, login, logout }}
+      value={{ isAuthenticated: !!token, userId, token, login, logout }}
     >
       <Router>
         <MainNavigation />
-        <MainRoutes isLoggedIn={isLoggedIn} />
+        <MainRoutes token={token} />
       </Router>
     </AuthenticationContext.Provider>
   );
 }
 
-function MainRoutes({ isLoggedIn }) {
+function MainRoutes({ token }) {
   return (
     <main>
       <Routes>
         <Route path="/" element={<Users />} />
         <Route path="/:uid/places" element={<UserPlaces />} />
-        {isLoggedIn ? (
+        {token ? (
           <>
             <Route path="/places/new" element={<NewPlace />} />
             <Route path="/places/:pid" element={<UpdatePlace />} />

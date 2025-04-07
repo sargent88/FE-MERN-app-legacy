@@ -8,7 +8,7 @@ import {
   Modal,
 } from "../../shared/components/UIElements";
 import { Button } from "../../shared/components/FormElements";
-import { AuthenticationContext } from "../../shared/context/authContext";
+import { AuthenticationContext } from "../../shared/context/authenticationContext";
 import { useHttpClient } from "../../shared/hooks/httpHook";
 import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
 import "./PlaceItem.css";
@@ -30,7 +30,7 @@ function PlaceItem(props) {
     closeDeleteModal();
     try {
       sendRequest(`${V1_PLACES_ENDPOINT}/${props.id}`, "DELETE", null, {
-        Authorization: "Bearer " + authenticationContext.token,
+        Authorization: `Bearer ${authenticationContext.token}`,
       });
 
       props.onDelete(props.id);

@@ -60,9 +60,7 @@ function Signup() {
       formData.append("email", formState.inputs.email.value);
       formData.append("password", formState.inputs.password.value);
 
-      await sendRequest(`${V1_USERS_ENDPOINT}/signup`, "POST", formData, {
-        "Content-Type": "multipart/form-data",
-      });
+      await sendRequest(`${V1_USERS_ENDPOINT}/signup`, "POST", formData);
 
       navigateToLoginPage();
     } catch (err) {

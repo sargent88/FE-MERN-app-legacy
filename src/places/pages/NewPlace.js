@@ -14,7 +14,7 @@ import {
 import { useForm } from "../../shared/hooks/formHook";
 import { useHttpClient } from "../../shared/hooks/httpHook";
 import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
-import { AuthenticationContext } from "../../shared/context/authContext";
+import { AuthenticationContext } from "../../shared/context/authenticationContext";
 import "./PlaceForm.css";
 
 function NewPlace() {
@@ -54,7 +54,7 @@ function NewPlace() {
       formData.append("creator", authenticationContext.userId);
 
       await sendRequest(`${V1_PLACES_ENDPOINT}`, "POST", formData, {
-        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${authenticationContext.token}`,
       });
 
       navigate("/");

@@ -14,7 +14,7 @@ import {
 import { useHttpClient } from "../../shared/hooks/httpHook";
 import { V1_PLACES_ENDPOINT } from "../../shared/utils/constants";
 import { useForm } from "../../shared/hooks/formHook";
-import { AuthenticationContext } from "../../shared/context/authContext";
+import { AuthenticationContext } from "../../shared/context/authenticationContext";
 import "./PlaceForm.css";
 
 function UpdatePlace() {
@@ -79,6 +79,7 @@ function UpdatePlace() {
         }),
         {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authenticationContext.token}`,
         }
       );
 
