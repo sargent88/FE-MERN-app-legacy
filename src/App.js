@@ -1,31 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
+  Navigate,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 
-import Users from "./users/pages/Users";
-import { MainNavigation } from "./shared/components/Navigation";
 import { NewPlace, UpdatePlace, UserPlaces } from "./places/pages";
 import Login from "./users/pages/Login";
 import Signup from "./users/pages/Signup";
+import Users from "./users/pages/Users";
+import { MainNavigation } from "./shared/components/Navigation";
 import { AuthenticationContext } from "./shared/context/authenticationContext";
+import { useAuthentication } from "./shared/hooks/authHook";
 import "./App.css";
 
 function App() {
-  const [token, setToken] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  const login = useCallback((userId, token) => {
-    setToken(token);
-    setUserId(userId);
-  }, []);
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-  }, []);
+  const { login, logout, token, userId } = useAuthentication();
 
   return (
     <AuthenticationContext.Provider

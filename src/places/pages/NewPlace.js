@@ -51,7 +51,6 @@ function NewPlace() {
       formData.append("description", formState.inputs.description.value);
       formData.append("address", formState.inputs.address.value);
       formData.append("image", formState.inputs.image.value);
-      formData.append("creator", authenticationContext.userId);
 
       await sendRequest(`${V1_PLACES_ENDPOINT}`, "POST", formData, {
         Authorization: `Bearer ${authenticationContext.token}`,
